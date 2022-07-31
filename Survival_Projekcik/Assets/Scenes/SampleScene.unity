@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 445, y: -227}
+  m_AnchoredPosition: {x: 361.99997, y: -221.49998}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &94148646
@@ -378,12 +378,14 @@ MonoBehaviour:
   Gun_barrel: {fileID: 1127349121}
   Bullet_prefab: {fileID: 5367324371320587051, guid: 408e1afba743ef44aabf44a5bebc202e, type: 3}
   ammo_details: {fileID: 94148646}
-  movement_speed: 4
+  movement_speed: 4.2
+  energy: 100
   fire_rate: 36
   mag_size: 12
   loaded_ammo: 0
+  accuracy: 6
+  recoil: 0
   time_between_shots: 0
-  reload_time: 0
   bullet_force: 9
 --- !u!61 &609824738
 BoxCollider2D:

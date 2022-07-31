@@ -15,14 +15,19 @@ public class Player_Controls : MonoBehaviour
     Vector2 movement;
     Vector2 mouse_position;
 
+    //character stats
     public float movement_speed;
+    public float energy = 100;
     public float fire_rate = 10f;
+
+    //weapon stats
     public int mag_size = 7;
     public int loaded_ammo;
+    public float accuracy = 6;
 
-    public float time_between_shots = 0;
-    public float reload_time = 0;
-    public float bullet_force = 1f;
+    public float recoil;
+    public float time_between_shots;
+    public float bullet_force;
 
     void Start()
     {
@@ -56,9 +61,21 @@ public class Player_Controls : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        if ((Input.GetKey(KeyCode.Mouse0)) && (loaded_ammo > 0))
             body.MovePosition(body.position + movement * 0.4f * movement_speed * Time.deltaTime);
+        else if ((Input.GetKey(KeyCode.LeftShift)) && (energy > 0))
+        {
+            body.MovePosition(body.position + movement * 1.5f * movement_speed * Time.deltaTime);
+            energy -= 1;
+        }
         else body.MovePosition(body.position + movement * movement_speed * Time.deltaTime);
+
+        if ((Input.GetKey(KeyCode.LeftShift) == false) && (energy < 100))
+        {
+            energy += 0.25f;
+            if (energy > 100)
+                energy = 100;
+        }
 
         Vector2 lookDir = mouse_position - body.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
@@ -67,6 +84,8 @@ public class Player_Controls : MonoBehaviour
 
     void Fire()
     {
+        recoil = Random.Range(-accuracy, accuracy);
+        Gun_barrel.rotation = Quaternion.Euler(Gun_barrel.rotation.x, Gun_barrel.rotation.y, Gun_barrel.rotation.z + recoil);
         GameObject bullet = Instantiate(Bullet_prefab, Gun_barrel.position, Gun_barrel.rotation);
         Rigidbody2D bullet_body = bullet.GetComponent<Rigidbody2D>();
         bullet_body.AddForce(Gun_barrel.up * bullet_force, ForceMode2D.Impulse);
